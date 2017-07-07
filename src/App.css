@@ -21,5 +21,6 @@
 }
 
 .timer--remove-span-elem:hover {
+  cursor: pointer;
   opacity: .7;
 }
