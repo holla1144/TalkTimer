@@ -1,0 +1,25 @@
+.header {
+  background-color: #FF90B3;
+  margin-bottom: 50px;
+}
+
+.header--text {
+  font-family: 'Permanent Marker', cursive;
+  margin-left: 50px;
+}
+
+.name-input--wrap, .user-panel {
+  margin-bottom: 10px !important;
+}
+
+.timer--remove-wrap {
+  margin-top: -25px !important;
+}
+
+.timer--remove-span-elem {
+  transition: all .2s linear;
+}
+
+.timer--remove-span-elem:hover {
+  opacity: .7;
+}
