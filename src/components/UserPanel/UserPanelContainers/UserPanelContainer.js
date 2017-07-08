@@ -12,11 +12,11 @@ class UserPanelContainer extends Component {
     };
 
     render() {
-        console.log(this.props);
-        return (
+       return (
             <div className="row">
-                {this.props.participants.map(function(name) {
-                    return <UserPanelInnerContainer removeHandler={this.props.removeHandler} name={name} />}.bind(this)
+                {this.props.participants.map(function(user, index) {
+                    return <UserPanelInnerContainer key={index} userUpdateHandler={ this.props.userUpdateHandler}
+                                                    removeHandler={this.props.removeHandler} user={user} />}.bind(this)
                 )}
             </div>
 

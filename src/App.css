@@ -6,6 +6,7 @@
 .header--text {
   font-family: 'Permanent Marker', cursive;
   margin-left: 50px;
+  font-size: 36px;
 }
 
 .name-input--wrap, .user-panel {

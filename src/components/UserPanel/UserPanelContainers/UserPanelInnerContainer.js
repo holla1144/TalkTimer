@@ -12,13 +12,11 @@ class UserPanelInnerContainer extends Component {
         super(props);
 
         this.state = {
-            counterTime: 0,
-            counterFormatted: "00:00:00",
-            totalTime: 0,
-            formattedTime: "00:00:00",
-            averageTime: 0,
-            averageTimeFormatted: "00:00:00",
-            count: 0,
+            name: this.props.user.name,
+            counterTime: this.props.user.stopWatchTime,
+            totalTime: this.props.user.totalTime,
+            averageTime: this.props.user.averageTime,
+            count: this.props.user.timesSpoken,
             running: false
 
         };
@@ -28,6 +26,9 @@ class UserPanelInnerContainer extends Component {
         this.remove = this.remove.bind(this);
     }
 
+    componentDidMount() {
+        this.props.userUpdateHandler(this.state);
+    };
 
     timer = () => {
 
@@ -46,6 +47,8 @@ class UserPanelInnerContainer extends Component {
             averageTime: newAverage,
             averageTimeFormatted: newAverageFormatted
         });
+
+        this.props.userUpdateHandler(this.state);
 
     };
 
@@ -99,7 +102,7 @@ class UserPanelInnerContainer extends Component {
     };
 
     remove() {
-        this.props.removeHandler((this.props.name));
+        this.props.removeHandler((this.state.name));
     };
 
     render() {
@@ -108,19 +111,19 @@ class UserPanelInnerContainer extends Component {
                 <div className="ui padded segment grid">
                     <div className="row">
                         <div className="left floated column ">
-                            <NameComponent name={this.props.name} />
+                            <NameComponent name={ this.state.name } />
                         </div>
                         <div className="right floated column timer--remove-wrap">
-                            <TimerRemoveComponent remove={this.remove} />
+                            <TimerRemoveComponent remove={ this.remove } />
                         </div>
                     </div>
                     <div className="row">
                         <StopWatchComponentContainer  startHandler={ this.startTimer } stopHandler={ this.stopTimer }
-                                             clearHandler={ this.clearTimer } counterTime={ this.state.counterFormatted }/>
+                                             clearHandler={ this.clearTimer } counterTime={ this.formatTime(this.state.counterTime) }/>
                     </div>
                     <div className="row">
-                        <MetaComponentsContainer  count={this.state.count} total={this.state.formattedTime}
-                                                 average={this.state.averageTimeFormatted} />
+                        <MetaComponentsContainer  count={ this.state.count } total={ this.formatTime(this.state.totalTime) }
+                                                 average={ this.formatTime(this.state.averageTime) } />
                     </div>
                 </div>
             </div>
