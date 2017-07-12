@@ -5,17 +5,12 @@ import React, { Component } from 'react';
 import UserPanelInnerContainer from  './UserPanelInnerContainer';
 
 class UserPanelContainer extends Component {
-    constructor(props) {
-        super(props);
-
-
-    };
 
     render() {
        return (
             <div className="row">
                 {this.props.participants.map(function(user, index) {
-                    return <UserPanelInnerContainer key={index} userUpdateHandler={ this.props.userUpdateHandler}
+                    return <UserPanelInnerContainer key={index} countHandle={ this.props.countHandleChange } userTimerHandler={ this.props.userTimerHandler}
                                                     removeHandler={this.props.removeHandler} user={user} />}.bind(this)
                 )}
             </div>

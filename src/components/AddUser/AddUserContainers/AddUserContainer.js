@@ -6,9 +6,6 @@ import InputComponent from './../AddUserComponents/InputComponent';
 import AddComponent from './../AddUserComponents/AddComponent';
 
 class AddUserContainer extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         return (

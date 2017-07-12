@@ -6,9 +6,6 @@ import TimerCountComponent from './../UserPanelComponents/MetaComponents/TimerCo
 import TimerDisplayAverageComponent from '../UserPanelComponents/MetaComponents/TimerDisplayAverageComponent';
 import TimerTotalComponent from '../UserPanelComponents/MetaComponents/TimerTotalComponent';
 class MetaComponentsContainer extends Component {
-    constructor(props) {
-        super(props)
-    }
 
     render() {
         return (

@@ -1,7 +1,7 @@
 /**
  * Created by Master on 07-Jul-17.
  */
-import React, { Component } from 'react';
+import React from 'react';
 
 const HeaderComponent = () => {
     return (

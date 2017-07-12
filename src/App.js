@@ -7,6 +7,7 @@ import './App.css';
 import './Semantic-UI-CSS-master/semantic.css';
 
 class App extends Component {
+
  constructor(props) {
      super(props);
 
@@ -18,7 +19,8 @@ class App extends Component {
      this.inputHandleChange = this.inputHandleChange.bind(this);
      this.addUser = this.addUser.bind(this);
      this.removeUser = this.removeUser.bind(this);
-     this.participantHandleChange = this.participantHandleChange.bind(this);
+     this.timerHandleChange = this.timerHandleChange.bind(this);
+     this.countHandleChange = this.countHandleChange.bind(this);
  }
 
  componentWillMount() {
@@ -29,7 +31,7 @@ class App extends Component {
 
          let participantsArray = [];
 
-         for (let [index, user] of oldData.entries()) {
+         for (let user of oldData) {
              let userInstance = new User(user.name, user.stopWatchTime, user.averageTime, user.timesSpoken, user.totalTime);
              participantsArray.push(userInstance);
          }
@@ -37,7 +39,7 @@ class App extends Component {
          this.setState({
              participants: participantsArray
          })
-     };
+     }
  }
 
  inputHandleChange(e) {
@@ -49,22 +51,55 @@ class App extends Component {
      localStorage.setItem('talkTimerData', JSON.stringify(this.state.participants));
  }
 
- participantHandleChange(userObj) {
-
+ countHandleChange(name) {
+     console.log("count handle change called");
      let userIndex;
 
      for (let [index, user] of this.state.participants.entries()) {
-
-         if (user.name === userObj.name) {
+         if (user.name === name) {
 
              userIndex = index;
 
              let participantCopy = this.state.participants[userIndex];
 
-             participantCopy.updateStopWatchTime(userObj.counterTime);
-             participantCopy.updateAverageTime(userObj.averageTime);
-             participantCopy.updateTimesSpoken(userObj.count);
-             participantCopy.updateTotalTime(userObj.totalTime);
+             participantCopy.updateTimesSpoken();
+
+             let newParticipantsArray = this.state.participants;
+
+             newParticipantsArray[userIndex] = participantCopy;
+
+             this.setState({
+                 participants: newParticipantsArray
+             });
+
+             this.setLocalStorage();
+         }
+
+     }
+
+ }
+
+ timerHandleChange(name, newCounterTime) {
+
+     let userIndex;
+
+     for (let [index, user] of this.state.participants.entries()) {
+
+         if (user.name === name) {
+
+             userIndex = index;
+
+             let participantCopy = this.state.participants[userIndex];
+
+             let newTotalTime = ++participantCopy.totalTime;
+
+             let newAverageTime = Math.floor(newTotalTime / participantCopy.timesSpoken);
+
+             participantCopy.updateStopWatchTime(newCounterTime);
+
+             participantCopy.updateAverageTime(newAverageTime);
+
+             participantCopy.updateTotalTime(newTotalTime);
 
              let newParticipantsArray = this.state.participants;
 
@@ -93,6 +128,7 @@ class App extends Component {
  removeUser(nameToRemove){
 
     let nameIndex;
+
     for (let [index, user] of this.state.participants.entries()) {
         if (user.name === nameToRemove) {
             nameIndex = index;
@@ -115,7 +151,7 @@ class App extends Component {
         <div className="ui padded grid">
             <HeaderComponent />
             <AddUserContainer inputOnChange={this.inputHandleChange} inputValue={this.state.inputValue} addBtnOnClick={this.addUser} />
-            <UserPanelContainer userUpdateHandler={ this.participantHandleChange } removeHandler={this.removeUser} participants={this.state.participants} />
+            <UserPanelContainer countHandleChange={ this.countHandleChange } userTimerHandler={ this.timerHandleChange } removeHandler={this.removeUser} participants={this.state.participants} />
         </div>
     );
   }

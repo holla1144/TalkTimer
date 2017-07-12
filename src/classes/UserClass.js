@@ -8,9 +8,9 @@ class User {
         this.averageTime = averageTime;
         this.timesSpoken = timesSpoken;
         this.totalTime = totalTime;
-        this.updateStopWatchTime(stopWatchTime)
+        this.updateStopWatchTime(stopWatchTime);
         this.updateAverageTime(averageTime);
-        this.updateTimesSpoken(timesSpoken);
+
         this.updateTotalTime(totalTime);
     }
     updateStopWatchTime(newTime) {
@@ -19,13 +19,17 @@ class User {
     updateAverageTime(newAverageTime) {
         this.averageTime = newAverageTime;
     };
-    updateTimesSpoken(newTimesSpoken) {
-        this.timesSpoken = newTimesSpoken;
-    };
+
     updateTotalTime(newTotalTime) {
         this.totalTime = newTotalTime;
-    }
+    };
+
+    updateTimesSpoken() {
+        return this.timesSpoken++;
+    };
 
 };
+
+
 
 module.exports = User;

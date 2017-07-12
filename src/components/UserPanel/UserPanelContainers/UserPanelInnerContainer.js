@@ -12,43 +12,19 @@ class UserPanelInnerContainer extends Component {
         super(props);
 
         this.state = {
-            name: this.props.user.name,
-            counterTime: this.props.user.stopWatchTime,
-            totalTime: this.props.user.totalTime,
-            averageTime: this.props.user.averageTime,
-            count: this.props.user.timesSpoken,
             running: false
 
         };
 
-
+        this.timer = this.timer.bind(this);
         this.stopTimer = this.stopTimer.bind(this);
         this.remove = this.remove.bind(this);
     }
 
-    componentDidMount() {
-        this.props.userUpdateHandler(this.state);
-    };
 
     timer = () => {
 
-        let newValue = ++this.state.counterTime;
-        let newTotal = ++this.state.totalTime;
-        let newFormattedTotal = this.formatTime(newTotal);
-        let newFormattedCounter = this.formatTime(newValue);
-        let newAverage = Math.floor(newTotal / this.state.count);
-        let newAverageFormatted = this.formatTime(newAverage);
-
-        this.setState({
-            counterTime: newValue,
-            totalTime: newTotal,
-            formattedTime: newFormattedTotal,
-            counterFormatted: newFormattedCounter,
-            averageTime: newAverage,
-            averageTimeFormatted: newAverageFormatted
-        });
-
-        this.props.userUpdateHandler(this.state);
+        this.props.userTimerHandler(this.props.user.name, ++this.props.user.stopWatchTime);
 
     };
 
@@ -67,17 +43,17 @@ class UserPanelInnerContainer extends Component {
 
     startTimer = () => {
 
+
         if (this.state.running !== true) {
-            let newCount = ++this.state.count;
+
+            this.props.countHandle(this.props.user.name);
+
             this.setState({
                     intervalId: setInterval(this.timer, 1000),
-                    count: newCount,
                     running: true
                 },
             );
-        } else {
-            return;
-        }
+        };
     };
 
 
@@ -93,16 +69,14 @@ class UserPanelInnerContainer extends Component {
 
     clearTimer = () => {
 
-        this.setState({
-            counterTime: 0,
-            counterFormatted: '00:00:00'
-        });
-
+        this.props.user.stopWatchTime = 0;
         this.stopTimer();
     };
 
     remove() {
-        this.props.removeHandler((this.state.name));
+        this.props.removeHandler((this.props.user.name));
+
+
     };
 
     render() {
@@ -111,7 +85,7 @@ class UserPanelInnerContainer extends Component {
                 <div className="ui padded segment grid">
                     <div className="row">
                         <div className="left floated column ">
-                            <NameComponent name={ this.state.name } />
+                            <NameComponent name={ this.props.user.name } />
                         </div>
                         <div className="right floated column timer--remove-wrap">
                             <TimerRemoveComponent remove={ this.remove } />
@@ -119,11 +93,11 @@ class UserPanelInnerContainer extends Component {
                     </div>
                     <div className="row">
                         <StopWatchComponentContainer  startHandler={ this.startTimer } stopHandler={ this.stopTimer }
-                                             clearHandler={ this.clearTimer } counterTime={ this.formatTime(this.state.counterTime) }/>
+                                             clearHandler={ this.clearTimer } counterTime={ this.formatTime(this.props.user.stopWatchTime) }/>
                     </div>
                     <div className="row">
-                        <MetaComponentsContainer  count={ this.state.count } total={ this.formatTime(this.state.totalTime) }
-                                                 average={ this.formatTime(this.state.averageTime) } />
+                        <MetaComponentsContainer  count={ this.props.user.timesSpoken } total={ this.formatTime(this.props.user.totalTime) }
+                                                 average={ this.formatTime(this.props.user.averageTime) } />
                     </div>
                 </div>
             </div>

@@ -8,10 +8,6 @@ import TimerStopComponent from '../UserPanelComponents/StopWatchComponents/StopW
 import TimerClearComponent from '../UserPanelComponents/StopWatchComponents/StopWatchClearComponent';
 
 class StopWatchComponentContainer extends Component {
-    constructor(props) {
-        super(props)
-    };
-
 
     render() {
         return (
